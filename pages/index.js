@@ -1,3 +1,4 @@
+// import { useEffect, useState } from 'react';
 import MeetupList from '../components/meetups/MeetupList';
 
 const DUMMY_MEETUPS = [
@@ -17,8 +18,31 @@ const DUMMY_MEETUPS = [
     },
 ];
 
-const HomePage = ()=>{
-    return <MeetupList meetups={DUMMY_MEETUPS} />;
+const HomePage = (props)=>{
+    // const [loadedMeetups, setLoadedMeetups] = useState([]);
+    // useEffect(()=>{
+    //     setLoadedMeetups(DUMMY_MEETUPS);
+    // }, []);
+    return <MeetupList meetups={props.meetups} />;
 }
+
+//Should use when data doesn't change frequently
+export async function getStaticProps(){
+    return {
+        props: {
+            meetups: DUMMY_MEETUPS
+        },
+        revalidate: 10
+    }
+}
+
+//Should use when data changes frequently
+// export async function getServerSideProps(context){
+//     return {
+//         props: {
+//             meetups: DUMMY_MEETUPS
+//         }
+//     }
+// }
 
 export default HomePage;
