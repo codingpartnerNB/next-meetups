@@ -1,13 +1,23 @@
 // import { useEffect, useState } from 'react';
 import { MongoClient } from 'mongodb';
 import MeetupList from '../components/meetups/MeetupList';
+import React from 'react';
+import Head from 'next/head';
 
 const HomePage = (props)=>{
     // const [loadedMeetups, setLoadedMeetups] = useState([]);
     // useEffect(()=>{
     //     setLoadedMeetups(DUMMY_MEETUPS);
     // }, []);
-    return <MeetupList meetups={props.meetups} />;
+    return (
+        <React.Fragment>
+            <Head>
+                <title>React Meetups</title>
+                <meta name='description' content='Browse a list of highly active meetups.' />
+            </Head>
+            <MeetupList meetups={props.meetups} />
+        </React.Fragment>
+    );
 }
 
 //Should use when data doesn't change frequently

@@ -1,14 +1,22 @@
 import { MongoClient, ObjectId } from "mongodb";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
+import React from "react";
+import Head from 'next/head';
 
 const MeetupDetails = (props) => {
   return (
-    <MeetupDetail
-      image={props.meetupData.image}
-      title={props.meetupData.title}
-      address={props.meetupData.address}
-      description={props.meetupData.description}
-    />
+    <React.Fragment>
+        <Head>
+            <title>{props.meetupData.title}</title>
+            <meta name='description' content={props.meetupData.description} />
+        </Head>
+        <MeetupDetail
+            image={props.meetupData.image}
+            title={props.meetupData.title}
+            address={props.meetupData.address}
+            description={props.meetupData.description}
+        />
+    </React.Fragment>
   );
 };
 
@@ -22,8 +30,11 @@ export async function getStaticPaths(){
     client.close();
 
     return {
-        fallback: false,
-        paths: meetups.map(meetup=> ({params: {meetupId: meetup._id.toString()}}))
+        fallback: 'blocking', //true or blocking -> we will generate error page
+                                //with true it will immediately return an empty page and then pull down the dynamically generated content
+                                //with blocking user will not see anything until the page was pre-generated and the finished page will be served.
+                                //with false it will not generate error page but there is default 404 error page
+        paths: meetups.map(meetup=> ({params: {meetupId: meetup._id.toString()}})),
         // paths: [
         //     {
         //         params: {
